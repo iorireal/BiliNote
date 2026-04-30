@@ -26,8 +26,6 @@ import ChatPanel from '@/pages/HomePage/components/ChatPanel.tsx'
 import VideoBanner from '@/pages/HomePage/components/VideoBanner.tsx'
 import mermaid from 'mermaid'
 
-mermaid.initialize({ startOnLoad: false, theme: 'neutral' })
-
 interface VersionNote {
   ver_id: string
   content: string

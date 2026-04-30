@@ -437,6 +437,12 @@ export default function MarkmapEditor({
       toolbar.setItems(toolbarItems ?? Toolbar.defaultItems)
       toolbarRef.current.appendChild(toolbar.render())
     }
+
+    return () => {
+      if (toolbarRef.current) toolbarRef.current.innerHTML = ''
+      if (svgRef.current) svgRef.current.innerHTML = ''
+      mmRef.current = undefined
+    }
   }, [customButtons, toolbarItems])
 
   // 当 value 变化时，重新渲染数据
