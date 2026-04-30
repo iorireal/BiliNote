@@ -248,6 +248,20 @@ def get_task_status(task_id: str):
 
 @router.get("/image_proxy")
 async def image_proxy(request: Request, url: str):
+    from urllib.parse import urlparse
+
+    # 只允许代理白名单域名的图片，防止 SSRF
+    ALLOWED_DOMAINS = {
+        "i0.hdslb.com", "i1.hdslb.com", "i2.hdslb.com",
+        "i.ytimg.com", "img.youtube.com",
+        "p3-pc.douyinpic.com", "p3-sign.douyinpic.com",
+        "p3-pc-sign.douyinpic.com",
+    }
+
+    parsed = urlparse(url)
+    if parsed.hostname not in ALLOWED_DOMAINS:
+        raise HTTPException(status_code=403, detail="不支持的图片域名")
+
     headers = {
         "Referer": "https://www.bilibili.com/",
         "User-Agent": request.headers.get("User-Agent", ""),
